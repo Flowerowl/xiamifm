@@ -5,23 +5,12 @@ import urllib2
 
 from gzip import GzipFile
 
-def get_request(url):
-    '''
-    包装urllib2的请求
-    '''
-    encoding_support = ContentEncodingProcessor
-    opener = urllib2.build_opener(encoding_support, urllib2.HTTPHandler)
-    req = urllib2.Request(url)
-    req.add_header('User-Agent','Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9)Gecko/20100824Firefox/3.6.9')
-    return req, opener
-
 
 class ContentEncodingProcessor(urllib2.BaseHandler):
     '''
     支持gzip,defalte,加快加载速度
     ref:http://www.pythonclub.org/python-network-application/observer-spider
     '''
-
     """A handler to add gzip capabilities to urllib2 requests """
     # add headers to requests
     def http_request(self, req):
@@ -46,6 +35,7 @@ class ContentEncodingProcessor(urllib2.BaseHandler):
             resp.msg = old_resp.msg
         return resp
 
+
 # deflate support
 import zlib
 def deflate(data):   # zlib only provides the zlib compress format, not the deflate format;
@@ -53,3 +43,25 @@ def deflate(data):   # zlib only provides the zlib compress format, not the defl
     return zlib.decompress(data, -zlib.MAX_WBITS)
   except zlib.error:
     return zlib.decompress(data)
+
+def get_request(url):
+    '''
+    包装urllib2的请求
+    '''
+    encoding_support = ContentEncodingProcessor
+    opener = urllib2.build_opener(encoding_support, urllib2.HTTPHandler)
+    req = urllib2.Request(url)
+    req.add_header('User-Agent','Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9)Gecko/20100824Firefox/3.6.9')
+    return req, opener
+
+def get_source(url):
+    '''
+    获取当前网页源码
+    '''
+    req, opener = get_request(url)
+    try:
+        urlopen = opener.open(req, timeout = 10)
+        source = urlopen.read()
+        return source
+    except Exception:
+        pass
