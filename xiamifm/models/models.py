@@ -9,10 +9,10 @@ class Music(dict):
 
 
 class User(object):
-    pass
+    def __init__(self, **kwargs):
+        dict.__init__(self, **kwargs)
+        self.__dict__ = self
 
 
-music = Music(title='a', artist='b')
-print music.title
 
 
