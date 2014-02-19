@@ -8,9 +8,6 @@ from config.config import intro, command_list
 def main():
     print intro
 
-def play():
-    print 'play'
-
 def listen():
     while 1:
         command = raw_input('>')
