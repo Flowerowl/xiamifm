@@ -1,0 +1,5 @@
+title: xiamifm
+command:
+    play: play
+    pause: pause
+    help: help 
