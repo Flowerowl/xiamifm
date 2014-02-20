@@ -1,7 +1,10 @@
 #encoding:utf-8
-import xml
+from __future__ import unicode_literals
+
+from xml.dom.minidom import parseString
 
 from get_response import get_source
 
 def xml_parser(source):
-    pass
+    dom = parseString(source)
+    print dom.

@@ -1,8 +1,6 @@
 #encoding:utf-8
-from core.api import RADIO_URL
-from utils.get_response import get_source
-
-from config.config import intro, command_list
+from core import commands
+from config.config import intro
 
 
 def main():
@@ -10,9 +8,9 @@ def main():
 
 def listen():
     while 1:
-        command = raw_input('>')
-        if command in command_list:
-            eval(command)()
+        command = raw_input('> ')
+        if command in dir(commands):
+            eval('commands.%s'%command)()
 
 if __name__ == '__main__':
     main()
