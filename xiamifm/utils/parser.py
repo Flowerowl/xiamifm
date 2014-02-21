@@ -1,10 +1,14 @@
 #encoding:utf-8
 from __future__ import unicode_literals
 
-from xml.dom.minidom import parseString
+try:
+    import xml.etree.cElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET
 
-from get_response import get_source
 
 def xml_parser(source):
-    dom = parseString(source)
-    print dom.
+    root = ET.fromstring(source)
+    for child in root.iter():
+        print child.tag, child.text
+
