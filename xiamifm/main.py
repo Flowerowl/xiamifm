@@ -10,7 +10,7 @@ def listen():
     while 1:
         command = raw_input('> ')
         if command in dir(commands):
-            eval('commands.%s'%command)()
+            eval('commands.%s' % command)()
 
 if __name__ == '__main__':
     main()

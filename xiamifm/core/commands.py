@@ -1,13 +1,15 @@
 #encoding:utf-8
 from __future__ import print_function, unicode_literals
 
-from utils import get_response, parser
+from utils import response, details
 
 
 __all__ = ['play', 'pause', 'quit', 'login', 'logout', 'like', 'dislike', 'next']
 
 def play():
-    parser.xml_parser(get_response.get_source('http://www.xiami.com/radio/xml/type/8/id/0'))
+    print ('歌曲列表初始化...')
+    playlist = details.get_playlist(response.get_source('http://www.xiami.com/radio/xml/type/8/id/0'))
+    print ('歌曲列表完毕')
 
 def pause():
     pass
