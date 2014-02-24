@@ -9,35 +9,38 @@ from decorators.decorators import load
 
 
 __all__ = ['play', 'pause', 'quit', 'login', 'logout', 'like', 'dislike', 'next']
-global gl_playlist
 
 def _playlist():
-    playlist = details.get_playlist(response.get_source(RADIO_URL))
+    return details.get_playlist(response.get_source(RADIO_URL))
 
-_playlist()
+gl_playlist = _playlist()
 
 def _show(music):
-    print (music)
-    #print (colored('title: %s' % music.title, 'red'))
-    #print (colored('artist: %s' % music.artist, 'red'))
-    #print (colored('album: %s' % music.album_name, 'red'))
-    #print (colored('-' * 64, 'yellow'))
+    print (colored('title: %s' % music.title, 'red'))
+    print (colored('artist: %s' % music.artist, 'red'))
+    print (colored('album: %s' % music.album_name, 'red'))
+    print (colored('-' * 64, 'yellow'))
+
+def _next():
+    global gl_playlist
+    if len(gl_playlist) > 0:
+        for music in gl_playlist:
+            _show(music)
+            _play(music.url)
+            gl_playlist.pop(0)
+            yield
+    else:
+        gl_playlist = _playlist()
+        _next().next()
 
 def _play(url):
     pass
 
 def play():
-    next().next()
+    next()
 
 def next():
-    if len(playlist) > 0:
-        for music in playlist:
-            _show(music)
-            _play(music.url)
-            yield
-    else:
-        _playlist()
-        next().next()
+    _next().next()
 
 def pause():
     pass
