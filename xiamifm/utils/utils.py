@@ -18,3 +18,11 @@ def get_playlist(source):
         track['url'] = caesar(track['location'])
         playlist.append(Music(track))
     return playlist
+
+
+def download(url):
+    pass
+
+
+def play(filename):
+    pass
