@@ -26,3 +26,7 @@ def download(url):
 
 def play(filename):
     pass
+
+
+def show_img():
+    pass
