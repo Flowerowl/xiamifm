@@ -1,11 +1,14 @@
 #encoding:utf-8
 from __future__ import print_function, unicode_literals
 
+import getpass
+
 from termcolor import colored
 
 from utils import response, utils
 from core.apis import RADIO_URL
 from decorators.decorators import load
+from auth import auth
 
 
 __all__ = ['play', 'pause', 'quit', 'login', 'logout', 'like', 'dislike', 'next']
@@ -26,8 +29,8 @@ def _next():
     global gl_playlist
     if len(gl_playlist) > 0:
         for music in gl_playlist:
-            _show(music)
-            _play(music.url)
+            _show(music) # 显示歌曲详情信息
+            _play(music.url) # 播放
             gl_playlist.pop(0)
             yield
     else:
@@ -56,7 +59,9 @@ def quit():
 
 
 def login():
-    pass
+    email = raw_input('Email:')
+    password = getpass.getpass('Password:')
+    auth.login(email, password)
 
 
 def logout():
