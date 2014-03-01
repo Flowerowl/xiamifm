@@ -1,8 +1,8 @@
-#xiami.fm
+# xiami.fm
 
-###基于python的虾米音乐电台终端客户端
+### 基于python的虾米音乐电台终端客户端
 
-####FM URLS
+#### FM URLS
 
 * recommend-list /radio/xml/type/8/id/0
 
@@ -18,4 +18,7 @@
 
 * trash 
 
+### 组件安装
 
+brew install mplayer 
+...(待续)

@@ -9,6 +9,7 @@ from utils import response, utils
 from core.apis import RADIO_URL
 from decorators.decorators import load
 from auth import auth
+from utils import utils
 
 
 __all__ = ['play', 'pause', 'quit', 'login', 'logout', 'like', 'dislike', 'next']
@@ -30,16 +31,13 @@ def _next():
     if len(gl_playlist) > 0:
         for music in gl_playlist:
             _show(music) # 显示歌曲详情信息
-            _play(music.url) # 播放
+            raw_data = utils.download(music.url)
+            utils.play(raw_data) # 播放
             gl_playlist.pop(0)
             yield
     else:
         gl_playlist = _playlist()
         _next().next()
-
-
-def _play(url):
-    pass
 
 
 def play():
