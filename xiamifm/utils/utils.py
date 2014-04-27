@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 import pickle
 import io
+import os
+from os.path import expanduser
 try:
     import xml.etree.cElementTree as ET
 except ImportError:
@@ -11,10 +13,23 @@ import xmltodict
 
 import requests
 import subprocess
-import mplayer
+from mplayer import Player, CmdPrefix
 
 from core.caesar import caesar
 from models.models import Music
+
+
+HOME_PATH = os.path.join(expanduser("~"), 'xiamifm')
+Player.cmd_prefix = CmdPrefix.PAUSING_KEEP
+global player
+
+
+def create_home():
+    if not os.path.exists(HOME_PATH):
+        os.mkdir(HOME_PATH)
+
+
+create_home()
 
 
 def get_playlist(source):
@@ -26,17 +41,21 @@ def get_playlist(source):
     return playlist
 
 
-def download(url):
+def download(url, title):
+    filename = os.path.join(HOME_PATH, '%s.mp3' % title)
     raw_data = requests.get(url, cookies=load_cookies('cookies.txt'), stream=True)
-    return io.BytesIO(raw_data.content)
+    with open(filename, 'wb') as f:
+        for chunk in raw_data.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+                f.flush()
+    return filename
 
 
-def play(data):
-    #subprocess.call('mplayer %s' % data)
-    p = mplayer.Player()
-    p.loadfile(data)
-    p.play()
-    import pdb;pdb.set_trace()
+def play(filename):
+    player = Player(stdout=subprocess.PIPE)
+    player.loadfile(filename)
+
 
 def show_img():
     pass

@@ -14,10 +14,13 @@ from utils import utils
 
 __all__ = ['play', 'pause', 'quit', 'login', 'logout', 'like', 'dislike', 'next']
 
+
 def _playlist():
     return utils.get_playlist(response.get_source(RADIO_URL))
 
+
 gl_playlist = _playlist()
+
 
 def _show(music):
     print (colored('title: %s' % music.title, 'red'))
@@ -31,8 +34,8 @@ def _next():
     if len(gl_playlist) > 0:
         for music in gl_playlist:
             _show(music) # 显示歌曲详情信息
-            raw_data = utils.download(music.url)
-            utils.play(raw_data) # 播放
+            filename = utils.download(music.url, music.title)
+            utils.play(filename) # 播放
             gl_playlist.pop(0)
             yield
     else:
