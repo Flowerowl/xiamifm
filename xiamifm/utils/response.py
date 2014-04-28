@@ -44,6 +44,7 @@ def deflate(data):   # zlib only provides the zlib compress format, not the defl
   except zlib.error:
     return zlib.decompress(data)
 
+
 def get_request(url):
     '''
     包装urllib2的请求
@@ -53,6 +54,7 @@ def get_request(url):
     req = urllib2.Request(url)
     req.add_header('User-Agent','Mozilla/5.0 (Windows;U;Windows NT 5.1;zh-CN;rv:1.9.2.9)Gecko/20100824Firefox/3.6.9')
     return req, opener
+
 
 def get_source(url):
     '''
