@@ -52,7 +52,7 @@ def next():
 
 
 def pause():
-    pass
+    utils.pause()
 
 
 def quit():

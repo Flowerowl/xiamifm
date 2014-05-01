@@ -13,15 +13,12 @@ import xmltodict
 
 import requests
 import subprocess
-from mplayer import Player, CmdPrefix
 
 from core.caesar import caesar
 from models.models import Music
 
 
 HOME_PATH = os.path.join(expanduser("~"), 'xiamifm')
-Player.cmd_prefix = CmdPrefix.PAUSING_KEEP
-global player
 
 
 def create_home():
@@ -53,8 +50,21 @@ def download(url, title):
 
 
 def play(filename):
-    player = Player(stdout=subprocess.PIPE)
-    player.loadfile(filename)
+    global child
+    try:
+        child.terminate()
+    except:
+        pass
+    child = subprocess.Popen(
+        ['mplayer', '-slave', '-quiet', filename],
+        stdout=subprocess.PIPE,
+        stdin=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+
+
+def pause():
+    child.communicate('pause')
 
 
 def show_img():
